@@ -1,0 +1,98 @@
+#custom-menu {
+  position: absolute;
+  background-color: white;
+  z-index: 999;
+  display: none;
+  box-sizing: border-box;
+  font-size: small;
+  border: 1px solid;
+  padding: 5px;
+  &:hover {
+    background-color: #eee;
+    cursor: pointer;
+  }
+}
+.memo {
+  position: absolute;
+  width: 150px;
+  height: 225px;
+  border: 1px grey solid;
+  background-color: white;
+}
+.memo-title {
+  border: none;
+  width: fit-content;
+  outline: none;
+}
+.x-button {
+  position: relative;
+  float: right;
+}
+.text-input {
+  position: relative;
+  padding: inherit;
+  width: 100%;
+  height: calc(100% - 20.2px);
+  resize: none;
+}
+.icon {
+  width: 10px;
+  height: 10px;
+}
+.control-button {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  &:hover {
+    cursor: pointer;
+    transform: translate(2px, 2px);
+  }
+}
+.toggle-button {
+  position: absolute;
+  bottom: 5px;
+  right: -15px;
+  background-size: cover;
+  &:hover {
+    cursor: pointer;
+    transform: translate(2px, 2px);
+  }
+  &.off {
+    background-image: url("./assets/icons/shrink.png");
+  }
+  &.on {
+    content: "";
+    background-image: url("./assets/icons/expand.png");
+  }
+}
+@media screen and (max-width: 768px) {
+  .memo {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  .memo-title {
+    font-size: medium;
+    padding: 10px;
+  }
+
+  .text-input {
+    font-size: medium;
+    padding: 10px;
+  }
+
+  .x-button {
+    top: 10px;
+    right: 10px;
+    font-size: medium;
+  }
+
+  .control-button {
+    font-size: medium;
+  }
+
+  .toggle-button {
+    font-size: medium;
+  }
+}
