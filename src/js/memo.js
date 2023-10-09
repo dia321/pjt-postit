@@ -1,71 +1,23 @@
-import "../css/memo.css";
-import icon from "../assets/icons/triangle.png";
+import '../css/memo.css';
+import icon from '../assets/icons/triangle.png';
 
 let emptyIndex = -1;
-document.addEventListener("DOMContentLoaded", () => {
-  const memoList = JSON.parse(localStorage.getItem("memoList"));
-  const newList = [];
-  let idx = 0;
-  if (memoList) {
-    for (let i = 0; i < memoList.length; i++) {
-      if (memoList[i]) {
-        createMemo(
-          memoList[i].x,
-          memoList[i].y,
-          memoList[i].title,
-          memoList[i].content,
-          memoList[i].width,
-          memoList[i].height,
-          memoList[i].toggle,
-          idx
-        );
-        idx++;
-        newList.push(memoList[i]);
-      }
-    }
-    localStorage.setItem("memoList", JSON.stringify(newList));
-  }
-});
-document.addEventListener("dragover", (e) => e.preventDefault());
 
 let farFromX;
 let farFromY;
 let ctrlKey;
 
-//우클릭 메뉴
-document.addEventListener(
-  "contextmenu",
-  (e) => {
-    e.Handled = true;
-    e.preventDefault();
-    const ctx = document.getElementById("custom-menu");
-    ctx.style.display = "block";
-    ctx.style.top = e.clientY + "px";
-    ctx.style.left = e.clientX + "px";
-    document.addEventListener("click", clicked, false);
-  },
-  false
-);
-//더블클릭
-document.addEventListener(
-  "dblclick",
-  (e) => {
-    if (e.target.nodeName === "HTML") create(e.clientX, e.clientY);
-  },
-  false
-);
-
 const clicked = (e) => {
-  const ctx = document.getElementById("custom-menu");
-  ctx.style.display = "none";
+  const ctx = document.getElementById('custom-menu');
+  ctx.style.display = 'none';
   if (e.target === ctx) {
     create(e.clientX, e.clientY);
   }
-  document.removeEventListener("click", clicked);
+  document.removeEventListener('click', clicked);
 };
 
 const create = (x, y) => {
-  const memoList = JSON.parse(localStorage.getItem("memoList"));
+  const memoList = JSON.parse(localStorage.getItem('memoList'));
   emptyIndex = memoList?.findIndex((f) => f === null);
 
   if (memoList) {
@@ -73,8 +25,8 @@ const create = (x, y) => {
       memoList[emptyIndex] = {
         x: x,
         y: y,
-        title: "",
-        content: "",
+        title: '',
+        content: '',
         width: 150,
         height: 225,
         toggle: false,
@@ -83,147 +35,127 @@ const create = (x, y) => {
       memoList.push({
         x: x,
         y: y,
-        title: "",
-        content: "",
+        title: '',
+        content: '',
         width: 150,
         height: 225,
         toggle: false,
       });
     }
-    localStorage.setItem("memoList", JSON.stringify(memoList));
+    localStorage.setItem('memoList', JSON.stringify(memoList));
   } else
     localStorage.setItem(
-      "memoList",
+      'memoList',
       JSON.stringify([
         {
           x: x,
           y: y,
-          title: "",
-          content: "",
+          title: '',
+          content: '',
           width: 150,
           height: 225,
           toggle: false,
         },
-      ])
+      ]),
     );
 
-  createMemo(x, y, "", "", 150, 225, false, emptyIndex);
+  createMemo(x, y, '', '', 150, 225, false, emptyIndex);
 };
 
 const createMemo = (x, y, title, content, width, height, toggle, index) => {
-  const memoList = JSON.parse(localStorage.getItem("memoList"));
+  const memoSpace = document.getElementById('memo-space');
+  const memoList = JSON.parse(localStorage.getItem('memoList'));
 
-  const memo = document.createElement("div");
-  memo.className = "memo";
-  memo.id =
-    index === undefined ? 0 : index === -1 ? memoList.length - 1 : index;
-  memo.style.top = y + "px";
-  memo.style.left = x + "px";
-  memo.style.width = width + "px";
-  memo.style.height = toggle ? "38px" : height + "px";
+  const memo = document.createElement('div');
+  memo.className = 'memo';
+  memo.id = index === undefined ? 0 : index === -1 ? memoList.length - 1 : index;
+  memo.style.top = y + 'px';
+  memo.style.left = x + 'px';
+  memo.style.width = width + 'px';
+  memo.style.height = toggle ? '38px' : height + 'px';
   memo.draggable = true;
-  memo.addEventListener("dragstart", (e) => {
+  memo.addEventListener('dragstart', (e) => {
     const left = e.target.style.left.slice(0, -2);
     const top = e.target.style.top.slice(0, -2);
     farFromX = e.clientX - left;
     farFromY = e.clientY - top;
     ctrlKey = e.ctrlKey;
   });
-  memo.addEventListener("dragend", dragging, false);
+  memo.addEventListener('dragend', dragging, false);
 
-  const memoTitle = document.createElement("input");
-  memoTitle.className = "memo-title";
-  memoTitle.placeholder = "메모";
+  const memoTitle = document.createElement('input');
+  memoTitle.className = 'memo-title';
+  memoTitle.placeholder = '메모';
   memoTitle.value = title;
-  memoTitle.style.width = "calc(100% - 30px)";
+  memoTitle.style.width = 'calc(100% - 30px)';
   memoTitle.addEventListener(
-    "input",
+    'input',
     (e) => {
-      const memoList = JSON.parse(localStorage.getItem("memoList"));
+      const memoList = JSON.parse(localStorage.getItem('memoList'));
       memoList[index].title = e.target.value;
-      localStorage.setItem("memoList", JSON.stringify(memoList));
+      localStorage.setItem('memoList', JSON.stringify(memoList));
     },
-    false
+    false,
   );
 
-  const xButton = document.createElement("button");
-  xButton.innerText = "x";
-  xButton.className = "x-button";
-  xButton.id =
-    index === undefined ? 0 : index === -1 ? memoList.length - 1 : index;
-  xButton.addEventListener("click", deleteMemo, false);
-  const textInput = document.createElement("textarea");
+  const xButton = document.createElement('button');
+  xButton.textContent = 'x';
+  xButton.className = 'x-button';
+  xButton.id = index === undefined ? 0 : index === -1 ? memoList.length - 1 : index;
+  xButton.addEventListener('click', deleteMemo, false);
+  const textInput = document.createElement('textarea');
   textInput.addEventListener(
-    "input",
+    'input',
     (e) => {
-      const memoList = JSON.parse(localStorage.getItem("memoList"));
+      const memoList = JSON.parse(localStorage.getItem('memoList'));
       memoList[index].content = e.target.value;
-      localStorage.setItem("memoList", JSON.stringify(memoList));
+      localStorage.setItem('memoList', JSON.stringify(memoList));
     },
-    false
+    false,
   );
-  textInput.className = "text-input";
-  textInput.innerText = content;
+  textInput.className = 'text-input';
+  textInput.textContent = content;
 
-  const controlButton = document.createElement("img");
-  if (toggle) controlButton.style.display = "none";
-  controlButton.addEventListener("drag", (e) => {
-    memo.style.width =
-      e.clientX - memo.style.left.slice(0, -2) - 10 > 60
-        ? `${e.clientX - memo.style.left.slice(0, -2) - 10}px`
-        : "60px";
-    memo.style.height =
-      e.clientY - memo.style.top.slice(0, -2) - 30 > 50
-        ? `${e.clientY - memo.style.top.slice(0, -2) - 30}px`
-        : "50px";
+  const controlButton = document.createElement('img');
+  if (toggle) controlButton.style.display = 'none';
+  controlButton.addEventListener('drag', (e) => {
+    memo.style.width = e.clientX - memo.style.left.slice(0, -2) - 10 > 60 ? `${e.clientX - memo.style.left.slice(0, -2) - 10}px` : '60px';
+    memo.style.height = e.clientY - memo.style.top.slice(0, -2) - 30 > 50 ? `${e.clientY - memo.style.top.slice(0, -2) - 30}px` : '50px';
 
-    const memoList = JSON.parse(localStorage.getItem("memoList"));
+    const memoList = JSON.parse(localStorage.getItem('memoList'));
     memoList[e.target.id] = {
       ...memoList[e.target.id],
-      width:
-        e.clientX - memo.style.left.slice(0, -2) - 10 > 60
-          ? e.clientX - memo.style.left.slice(0, -2) - 10
-          : 60,
-      height:
-        e.clientY - memo.style.top.slice(0, -2) - 30 > 50
-          ? e.clientY - memo.style.top.slice(0, -2) - 30
-          : 50,
+      width: e.clientX - memo.style.left.slice(0, -2) - 10 > 60 ? e.clientX - memo.style.left.slice(0, -2) - 10 : 60,
+      height: e.clientY - memo.style.top.slice(0, -2) - 30 > 50 ? e.clientY - memo.style.top.slice(0, -2) - 30 : 50,
     };
-    localStorage.setItem("memoList", JSON.stringify(memoList));
+    localStorage.setItem('memoList', JSON.stringify(memoList));
   });
   controlButton.src = icon;
-  controlButton.className = "icon control-button";
-  controlButton.id =
-    index === undefined ? 0 : index === -1 ? memoList.length - 1 : index;
+  controlButton.className = 'icon control-button';
+  controlButton.id = index === undefined ? 0 : index === -1 ? memoList.length - 1 : index;
 
-  const toggleButton = document.createElement("div");
-  toggleButton.className = "icon toggle-button";
-  toggleButton.classList.add(toggle ? "on" : "off");
-  toggleButton.id =
-    index === undefined ? 0 : index === -1 ? memoList.length - 1 : index;
+  const toggleButton = document.createElement('div');
+  toggleButton.className = 'icon toggle-button';
+  toggleButton.classList.add(toggle ? 'on' : 'off');
+  toggleButton.id = index === undefined ? 0 : index === -1 ? memoList.length - 1 : index;
   toggleButton.addEventListener(
-    "click",
+    'click',
     (e) => {
-      const memoList = JSON.parse(localStorage.getItem("memoList"));
-      e.target.classList.remove("on");
-      e.target.classList.remove("off");
-      e.target.classList.add(memoList[e.target.id].toggle ? "off" : "on");
+      const memoList = JSON.parse(localStorage.getItem('memoList'));
+      e.target.classList.remove('on');
+      e.target.classList.remove('off');
+      e.target.classList.add(memoList[e.target.id].toggle ? 'off' : 'on');
 
-      document.getElementById(e.target.id).style.height = memoList[e.target.id]
-        .toggle
-        ? memoList[e.target.id].height + "px"
-        : "38px";
-      document.getElementsByClassName("control-button")[
-        e.target.id
-      ].style.display = memoList[e.target.id].toggle ? "" : "none";
+      document.getElementById(e.target.id).style.height = memoList[e.target.id].toggle ? memoList[e.target.id].height + 'px' : '38px';
+      document.getElementsByClassName('control-button')[e.target.id].style.display = memoList[e.target.id].toggle ? '' : 'none';
 
       memoList[e.target.id] = {
         ...memoList[e.target.id],
         toggle: !memoList[e.target.id].toggle,
       };
-      localStorage.setItem("memoList", JSON.stringify(memoList));
+      localStorage.setItem('memoList', JSON.stringify(memoList));
     },
-    false
+    false,
   );
 
   memo.appendChild(memoTitle);
@@ -232,23 +164,23 @@ const createMemo = (x, y, title, content, width, height, toggle, index) => {
   memo.appendChild(controlButton);
   memo.appendChild(toggleButton);
 
-  document.body.appendChild(memo);
+  memoSpace.appendChild(memo);
 };
 const deleteMemo = (e) => {
   const index = e.target.id;
-  const memoList = JSON.parse(localStorage.getItem("memoList"));
+  const memoList = JSON.parse(localStorage.getItem('memoList'));
   memoList[index] = null;
-  localStorage.setItem("memoList", JSON.stringify(memoList));
+  localStorage.setItem('memoList', JSON.stringify(memoList));
 
   e.target.parentElement.remove();
 };
 
 const dragging = (e) => {
-  if (e.target.classList.contains("control-button")) {
+  if (e.target.classList.contains('control-button')) {
     return;
   }
   const index = e.target.id;
-  const memoList = JSON.parse(localStorage.getItem("memoList"));
+  const memoList = JSON.parse(localStorage.getItem('memoList'));
   if (!ctrlKey) {
     e.target.remove();
     memoList[index] = {
@@ -264,7 +196,7 @@ const dragging = (e) => {
       memoList[index].width,
       memoList[index].height,
       memoList[index].toggle,
-      index
+      index,
     );
   } else {
     const emptyIdx = memoList?.findIndex((f) => f === null);
@@ -276,7 +208,7 @@ const dragging = (e) => {
       memoList[index].width,
       memoList[index].height,
       memoList[index].toggle,
-      emptyIdx > -1 ? emptyIdx : memoList.length
+      emptyIdx > -1 ? emptyIdx : memoList.length,
     );
     if (emptyIdx > -1) {
       memoList[emptyIdx] = {
@@ -292,5 +224,60 @@ const dragging = (e) => {
       });
     }
   }
-  localStorage.setItem("memoList", JSON.stringify(memoList));
+  localStorage.setItem('memoList', JSON.stringify(memoList));
 };
+
+const memoInit = () => {
+  console.log(123123);
+  const memoSpace = document.getElementById('memo-space');
+  const memoList = JSON.parse(localStorage.getItem('memoList'));
+  const newList = [];
+  let idx = 0;
+  if (memoList) {
+    for (let i = 0; i < memoList.length; i++) {
+      if (memoList[i]) {
+        createMemo(
+          memoList[i].x,
+          memoList[i].y,
+          memoList[i].title,
+          memoList[i].content,
+          memoList[i].width,
+          memoList[i].height,
+          memoList[i].toggle,
+          idx,
+        );
+        idx++;
+        newList.push(memoList[i]);
+      }
+    }
+    localStorage.setItem('memoList', JSON.stringify(newList));
+  }
+
+  //이벤트리스터 추가
+  memoSpace.addEventListener('dragover', (e) => e.preventDefault());
+
+  //우클릭 메뉴
+  memoSpace.addEventListener(
+    'contextmenu',
+    (e) => {
+      e.Handled = true;
+      e.preventDefault();
+      const ctx = document.getElementById('custom-menu');
+      ctx.style.display = 'block';
+      ctx.style.top = e.clientY + 'px';
+      ctx.style.left = e.clientX + 'px';
+      memoSpace.addEventListener('click', clicked, false);
+    },
+    false,
+  );
+  //더블클릭
+  memoSpace.addEventListener(
+    'dblclick',
+    (e) => {
+      if (e.target.nodeName === 'HTML') create(e.clientX, e.clientY);
+    },
+    false,
+  );
+};
+
+export { memoInit };

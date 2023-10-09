@@ -1,36 +1,35 @@
-const TerserPlugin = require("terser-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const WebpackObfuscator = require("webpack-obfuscator");
-const path = require("path");
+const TerserPlugin = require('terser-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WebpackObfuscator = require('webpack-obfuscator');
+const path = require('path');
 
-const dotenv = require("dotenv");
+const dotenv = require('dotenv');
 const port = 1111;
 dotenv.config();
 
-const pages = ["main", "memo", "routeHome"];
+const pages = ['main', 'memo', 'routeHome'];
 
 const entryHtmlPlugins = pages.map(
   (page) =>
     new HtmlWebpackPlugin({
       filename: `${page}.html`,
       chunks: [page],
-    })
+    }),
 );
 
 module.exports = {
-  mode: "development",
+  mode: 'development',
   entry: {
-    main: "./src/main.js",
-    memo: "./src/js/memo.js",
-    router: "./src/js/router.js",
+    main: './src/main.js',
   },
   output: {
-    filename: "[name].js",
-    path: __dirname + "/dist",
+    filename: '[name].js',
+    chunkFilename: '[name].chunk.js',
+    path: __dirname + '/dist',
   },
   resolve: {
-    extensions: [".js"],
+    extensions: ['.js'],
     alias: {
       // "@": "src",
     },
@@ -39,11 +38,11 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: "/node_modules",
+        exclude: '/node_modules',
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ["@babel/preset-env"],
+            presets: ['@babel/preset-env'],
           },
         },
       },
@@ -51,7 +50,7 @@ module.exports = {
         test: /\.html$/,
         use: [
           {
-            loader: "html-loader",
+            loader: 'html-loader',
             options: {
               minimize: true,
             },
@@ -61,12 +60,12 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        use: ["style-loader", "css-loader", "postcss-loader"],
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
       {
         test: /\.png$/,
         exclude: /node_modules/,
-        type: "asset/inline",
+        type: 'asset/inline',
       },
       // 추후에 scss 쓸 때 쓸 것
       // {
@@ -80,24 +79,28 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: __dirname + "/public/index.html",
+      template: __dirname + '/public/index.html',
       minify: {
         removeComments: true,
         collapseWhitespace: true,
       },
     }),
     new WebpackObfuscator(),
-    // new MiniCssExtractPlugin({
-    //   filename: "style.css",
-    // }),
+    new MiniCssExtractPlugin({
+      filename: 'style.css',
+    }),
   ],
   optimization: {
     minimize: true,
     minimizer: [new TerserPlugin()],
+    splitChunks: {
+      chunks: 'all',
+    },
   },
   devServer: {
-    host: "localhost",
+    host: 'localhost',
     port: port,
     hot: true,
+    historyApiFallback: true,
   },
 };
