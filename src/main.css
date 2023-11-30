@@ -14,14 +14,14 @@
 }
 .memo {
   position: absolute;
-  width: 150px;
+  width: 200px;
   height: 225px;
   border: 1px grey solid;
   background-color: white;
 }
 .memo-title {
   border: none;
-  width: fit-content;
+  width: 100%;
   outline: none;
 }
 .x-button {
@@ -58,11 +58,11 @@
     transform: translate(2px, 2px);
   }
   &.off {
-    background-image: url("./assets/icons/shrink.png");
+    background-image: url('./assets/icons/shrink.png');
   }
   &.on {
-    content: "";
-    background-image: url("./assets/icons/expand.png");
+    content: '';
+    background-image: url('./assets/icons/expand.png');
   }
 }
 @media screen and (max-width: 768px) {

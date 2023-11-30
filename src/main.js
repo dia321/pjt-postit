@@ -29,7 +29,7 @@ const create = (x, y) => {
         y: y,
         title: '',
         content: '',
-        width: 150,
+        width: 200,
         height: 225,
         toggle: false,
       };
@@ -39,7 +39,7 @@ const create = (x, y) => {
         y: y,
         title: '',
         content: '',
-        width: 150,
+        width: 200,
         height: 225,
         toggle: false,
       });
@@ -54,14 +54,14 @@ const create = (x, y) => {
           y: y,
           title: '',
           content: '',
-          width: 150,
+          width: 200,
           height: 225,
           toggle: false,
         },
       ]),
     );
 
-  createMemo(x, y, '', '', 150, 225, false, emptyIndex);
+  createMemo(x, y, '', '', 200, 225, false, emptyIndex);
 };
 
 const createMemo = (x, y, title, content, width, height, toggle, index) => {
