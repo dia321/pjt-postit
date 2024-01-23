@@ -137,11 +137,15 @@ const createMemo = (x, y, title, content, width, height, toggle, index) => {
     localStorage.setItem('memoList', JSON.stringify(memoList));
   });
   controlButton.src = icon;
-  controlButton.className = 'icon control-button';
+  controlButton.classList.add('icon');
+  controlButton.classList.add('control-button');
+  // controlButton.className = 'icon control-button';
   controlButton.id = index === undefined ? 0 : index === -1 ? memoList.length - 1 : index;
 
   const toggleButton = document.createElement('div');
-  toggleButton.className = 'icon toggle-button';
+  toggleButton.classList.add('icon');
+  toggleButton.classList.add('toggle-button');
+  // toggleButton.className = 'icon toggle-button';
   toggleButton.classList.add(toggle ? 'on' : 'off');
   toggleButton.id = index === undefined ? 0 : index === -1 ? memoList.length - 1 : index;
   toggleButton.addEventListener(
